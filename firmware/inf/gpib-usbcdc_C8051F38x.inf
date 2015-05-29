@@ -1,0 +1,88 @@
+; CDC_ACM.inf
+;
+; INF file for F32x_USB_CDC_skeleton example
+;
+; 1) Replace VID/PID to your own in [MYCORP] section
+;      VID_vvvv&PID_pppp
+;          vvvv, pppp: four digit hex number of VID and PID, respectively
+;
+; 2) Replace 'MYCORP' to your own abbreviated one (without space)
+;      ex Silicon Laboratories -> SILABS
+;     - Replace all MYCORP in this inf file
+;
+; 3) Replace 'MYDEV000' to your device model number (without space)
+;      ex C8051F320 Development kit -> F320DK
+;     - Replace all MYDEV000 in this inf file
+;
+; 4) Edit the strings in [Strings] section
+;
+
+[Version]
+Signature="$Windows NT$"
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+
+Provider=%MYCORP%
+LayoutFile=layout.inf
+DriverVer=08/04/2004,5.1.2699.2180
+
+[Manufacturer]
+%MYCORP%=MYCORP,NTamd64
+
+[DestinationDirs]
+FakeModemCopyFileSection=12 
+DefaultDestDir=12
+
+;------------------------------------------
+;              Windows 2000/XP/Vista32/Win732 Support
+;------------------------------------------
+
+[MYCORP]
+%MYDEV000%=MYDEV000,USB\VID_10C4&PID_8A5F
+
+[MYDEV000.NT]
+include=mdmcpq.inf
+CopyFiles=FakeModemCopyFileSection
+AddReg=MYDEV000.NT.AddReg
+
+[MYDEV000.NT.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[MYDEV000.NT.Services]
+AddService = usbser, 0x00000002, Service_Inst
+
+;------------------------------------------
+;              Windows Vista64/Win764 Support
+;------------------------------------------
+
+[MYCORP.NTamd64]
+%MYDEV000%=MYDEV000,USB\VID_10C4&PID_8A5F
+
+[MYDEV000.NTamd64]
+include=mdmcpq.inf
+CopyFiles=FakeModemCopyFileSection
+AddReg=MYDEV000.NTamd64.AddReg
+
+[MYDEV000.NTamd64.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbser.sys
+HKR,,EnumPropPages32,,"MsPorts.dll,SerialPortPropPageProvider"
+
+[MYDEV000.NTamd64.Services]
+AddService=usbser, 0x00000002, Service_Inst
+
+
+[Service_Inst]
+DisplayName = %Serial.SvcDesc%
+ServiceType = 1 ; SERVICE_KERNEL_DRIVER
+StartType = 3 ; SERVICE_DEMAND_START
+ErrorControl = 1 ; SERVICE_ERROR_NORMAL
+ServiceBinary = %12%\usbser.sys
+LoadOrderGroup = Base
+
+[Strings] 
+MYCORP = "YOU System" ; Your company name
+MYDEV000 = "GPIB-USB" ; Device description
+Serial.SvcDesc = "GPIB-USB CDC" ; Device driver description
