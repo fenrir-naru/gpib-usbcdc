@@ -6,8 +6,12 @@ It is [Prologix GPIB-USB adapter](http://prologix.biz/gpib-usb-controller.html) 
 
 # Quick user guide
   1. Connect _GPIB-USBCDC_ to the PC. _GPIB-USBCDC_ is recognized as serial port, which will be installed with [CDC inf file](https://raw.githubusercontent.com/fenrir-naru/gpib-usbcdc/master/firmware/inf/gpib-usbcdc_C8051F38x.inf).
+  1. Other usage is almost same as [Prologix GPIB-USB adapter](http://prologix.biz/gpib-usb-controller.html). Please see that product manual.
+  
+# Board
+[EagleCAD](http://www.cadsoftusa.com/) files are available (ver.1 [schematics](https://github.com/fenrir-naru/gpib-usbcdc/blob/master/board/gpib-usbcdc.sch) and [layout](https://github.com/fenrir-naru/gpib-usbcdc/blob/master/board/gpib-usbcdc.brd). Its components are listed in [BOM](https://github.com/fenrir-naru/gpib-usbcdc#bom-bill-of-material). The board design is published under [Creative Commons Attribution-ShareAlike 4.0 International](http://creativecommons.org/licenses/by-sa/4.0/).
 
-# BOM (bill of material)
+## BOM (bill of material)
 
 <a href='https://github.com/fenrir-naru/gpib-usbcdc/blob/master/board/gpib-usbcdc_layout.png'><img src='https://raw.githubusercontent.com/fenrir-naru/gpib-usbcdc/master/board/gpib-usbcdc_layout.png' width='400px' /></a>
 
@@ -28,5 +32,17 @@ It is [Prologix GPIB-USB adapter](http://prologix.biz/gpib-usb-controller.html) 
 | R1, R2, R3, R4 | 470 | 1005 | 4 |
 | R5 | 1K | 1005 | 1 |
 
-## Additional information
+# Firmware
+To build the firmware, install [sdcc](http://sdcc.sourceforge.net/) (testing with [ver 3.3.0 #8604](http://sourceforge.net/projects/sdcc/files/sdcc/3.3.0/)), and just "make" at "firmware1" directory of the downloaded [code](https://github.com/fenrir-naru/gpib-usbcdc/tree/master/firmware). The generated firmware name is  `gpib-usbcdc.hex`. The firmware code is published under [New BSD License](http://opensource.org/licenses/BSD-3-Clause). The binary is [here](https://drive.google.com/folderview?id=0ByrAl6X3Khv2fldnTDZFdXhWMlM3MktQcy12ME1nUXdxY1lTTUIxMEpHUFNaTlJKZGRJczA&usp=sharing)
+
+## How to write firmware to hardware
+Connect a _GPIB-USBCDC_ board and a PC via [USB debug adapter (UDA)](http://www.silabs.com/products/mcu/pages/usbdebug.aspx) or compatible one. The minimum required programming connections are summarized in the following table. Then, use [Flash Programming Utilities](http://www.silabs.com/products/mcu/Pages/8-bit-microcontroller-software.aspx#flash). Note: the board may not be recognized by a PC when an UDA is connected via USB hubs. UDA is recommended to connect a PC directly.
+
+| **Signal** | **UDA side** | **_GPIB-USBCDC_ board side** |
+|:-----------|:-------------|:---------------------------------|
+| C2D        | 4th pin      | CON3 3rd pin                     |
+| C2CK       | 7th pin      | CON3 4th pin                     |
+| GND        | 3rd pin      | CON3 1st pin                     |
+
+# Additional information
 * The project owner's website is [Fenrir's BLog](http://fenrir.naruoka.org/).

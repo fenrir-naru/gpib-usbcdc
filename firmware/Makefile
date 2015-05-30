@@ -26,7 +26,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-PACKAGE = gpibusb_mini.hex
+PACKAGE = gpib-usbcdc.hex
 
 BIN_PATH = /usr/bin:/usr/local/bin
 CXX = sdcc
