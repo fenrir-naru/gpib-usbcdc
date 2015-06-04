@@ -45,8 +45,8 @@ extern volatile __xdata u32 tickcount;
 extern volatile __xdata u8 sys_state;
 #define SYS_PERIODIC_ACTIVE 0x01
 #define SYS_GPIB_CONTROLLER 0x10
-#define SYS_GPIB_TALKING 0x20
-#define SYS_GPIB_LISTENING 0x40
+#define SYS_GPIB_TALKED 0x20
+#define SYS_GPIB_LISTENED 0x40
 
 extern volatile u8 timeout_10ms;
 

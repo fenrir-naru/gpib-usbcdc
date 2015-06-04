@@ -81,8 +81,32 @@ void main() {
     }
 
     (sys_state & SYS_GPIB_CONTROLLER) ? led_on(2) : led_off(2);
-    (sys_state & SYS_GPIB_TALKING) ? led_on(3) : led_off(3);
-    (sys_state & SYS_GPIB_LISTENING) ? led_on(4) : led_off(4);
+
+    { // check talked
+      static __xdata u8 persistent = 0;
+      if(sys_state & SYS_GPIB_TALKED){
+        led_on(3);
+        persistent = 0x40;
+      }else if(persistent > 0){
+        led_toggle(3);
+        persistent--;
+      }else{
+        led_off(3);
+      }
+    }
+
+    { // check listened
+      static __xdata u8 persistent = 0;
+      if(sys_state & SYS_GPIB_LISTENED){
+        led_on(4);
+        persistent = 0x40;
+      }else if(persistent > 0){
+        led_toggle(4);
+        persistent--;
+      }else{
+        led_off(4);
+      }
+    }
   }
 }
 

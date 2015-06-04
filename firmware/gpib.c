@@ -238,7 +238,6 @@ static void device_init(){
     gpib_uniline(GPIB_UNI_SRQ_ASSERT); // SRQ
   }
 }
-static __bit listening;
 
 void run_command(parsed_info_t *info){
   u8 not_query = (!(gpib_config.debug & DEBUG_VERBOSE)) && (info->args > 0);
@@ -331,7 +330,7 @@ void run_command(parsed_info_t *info){
       }else{
         gpib_read(push_func, 0);
       }
-      listening = TRUE;
+      sys_state |= SYS_GPIB_LISTENED;
       break;
     case CMD_READ_TMO_MS:
       if(renew_arg0_u16(info, &gpib_config.timeout_ms, 3000)){
@@ -457,6 +456,7 @@ void run_command(parsed_info_t *info){
           talking = (gpib_putchar(buf, 0) > 0);
           buf = (u8)(info->arg[0]);
         }
+        sys_state |= SYS_GPIB_TALKED;
       }else if(info->args > 0){ // ignore terminator when not talking.
         if(gpib_config.is_controller){ // controller
           gpib_cmd(GPIB_CMD_TAD(0), &gpib_config.address); // talker, it's me.
@@ -486,7 +486,7 @@ void gpib_polling(){
   static __xdata u8 remain = 0;
   static __xdata char * __xdata c;
 
-  listening = FALSE;
+  sys_state &= ~(SYS_GPIB_TALKED | SYS_GPIB_LISTENED);
 
   // parse cdc_rx stream
   if(remain == 0){
@@ -551,7 +551,7 @@ void gpib_polling(){
         // @see much similarity to gpib_read()
         char c = GPIB_GETCHAR_TO_DATA(res);
         if(listening_as_device){
-          listening = TRUE;
+          sys_state |= SYS_GPIB_LISTENED;
           push_func(c);
         }
 
@@ -578,15 +578,5 @@ void gpib_polling(){
     sys_state |= SYS_GPIB_CONTROLLER;
   }else{
     sys_state &= ~SYS_GPIB_CONTROLLER;
-  }
-  if(talking){
-    sys_state |= SYS_GPIB_TALKING;
-  }else{
-    sys_state &= ~SYS_GPIB_TALKING;
-  }
-  if(listening){
-    sys_state |= SYS_GPIB_LISTENING;
-  }else{
-    sys_state &= ~SYS_GPIB_LISTENING;
   }
 }
