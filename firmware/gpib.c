@@ -345,7 +345,7 @@ void run_command(parsed_info_t *info){
     case CMD_SAVECFG:
       // Different from Prologic command, savecfg is performing one-shot save.
       flash_update((flash_address_t)(void __code *)&gpib_config_saved,
-          &gpib_config, sizeof(gpib_config));
+          (u8 *)&gpib_config, sizeof(gpib_config));
       if(gpib_config.debug & DEBUG_VERBOSE){dump_config();}
       break;
     case CMD_SPOLL: {

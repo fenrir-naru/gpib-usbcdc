@@ -80,7 +80,11 @@ void main() {
       led_toggle(1);
     }
 
-    (sys_state & SYS_GPIB_CONTROLLER) ? led_on(2) : led_off(2);
+    if(sys_state & SYS_GPIB_CONTROLLER){
+      led_on(2);
+    }else{
+      led_off(2);
+    }
 
     { // check talked
       static __xdata u8 persistent = 0;
