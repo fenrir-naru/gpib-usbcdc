@@ -32,7 +32,7 @@
 #ifndef  _USB_REGS_H_
 #define  _USB_REGS_H_
 
-#include "c8051F380.h"
+#include "c8051f380.h"
 
 // USB Core Registers
 #define  BASE     0x00

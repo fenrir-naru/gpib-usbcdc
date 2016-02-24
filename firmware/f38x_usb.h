@@ -32,7 +32,7 @@
 #ifndef  _USB_ISR_H_
 #define  _USB_ISR_H_
 
-#include "c8051F380.h"
+#include "c8051f380.h"
 #include "main.h"
 #include <string.h>
 

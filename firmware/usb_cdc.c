@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "c8051F380.h"
+#include "c8051f380.h"
 #include "main.h"
 #include "f38x_usb_register.h"
 #include "f38x_usb.h"
