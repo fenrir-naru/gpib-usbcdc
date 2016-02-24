@@ -1,4 +1,4 @@
-# Copyright (c) 2015, M.Naruoka (fenrir)
+# Copyright (c) 2016, M.Naruoka (fenrir)
 # All rights reserved.
 # 
 # Redistribution and use in source and binary forms, with or without modification, 
@@ -30,28 +30,29 @@ PACKAGE = gpib-usbcdc.hex
 
 BIN_PATH = /usr/bin:/usr/local/bin
 CXX = sdcc
-AS = asx8051
+AS = sdas8051
 CPPFLAGS = -V --use-stdout -D__SDCC__ -D__F380_VER__
 CFLAGS = -V --debug --stack-auto --nooverlay --model-small --use-stdout -D__SDCC__ -D__F380_VER__ --opt-code-speed #-mmcs51
 LFLAGS = -V --debug --use-stdout --stack-auto --model-small --iram-size 0x0100 --xram-loc 0x0000 --xram-size 0x0400 --code-size 0x7a00  #-mmcs51
 ASFLAGS = -plosgff
-INCLUDES = #-I
-LIBS = #-L
+MKFILE_DIR := $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST))))
+SRC_DIR = $(MKFILE_DIR)
 BUILD_DIR = build_by_sdcc
+INCLUDES = -I$(SRC_DIR)
+LIBS = #-L
 
 SRCS_C = \
-	$(shell ls *.c)
+	$(shell ls $(SRC_DIR)/*.c || echo '')
 SRCS_ASM = \
-	$(shell ls *.asm)
-	
-OBJS = $(SRCS_C:.c=.rel) $(SRCS_ASM:.asm=.rel)
+	$(shell ls $(SRC_DIR)/*.asm || echo '')
+
+OBJS = $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.rel, $(SRCS_C)) $(patsubst $(SRC_DIR)/%.asm,$(BUILD_DIR)/%.rel, $(SRCS_ASM))
 
 all : $(BUILD_DIR) depend $(PACKAGE)
 
 # ヘッダーファイルの依存関係
 depend: $(SRCS_C)
 	export PATH=$(BIN_PATH):$$PATH; \
-	rm -f $(BUILD_DIR)/depend.inc; \
 	for i in $^; do \
 		$(CXX) -E -MMM $(INCLUDES) $(CPPFLAGS) $$i >> tempfile; \
 		if ! [ $$? = 0 ]; then \
@@ -59,16 +60,16 @@ depend: $(SRCS_C)
 			exit 1; \
 		fi; \
 	done; \
-	cat tempfile | sed -e 's/^+.*//g' -e 's/[^\.]*\.rel/$(BUILD_DIR)\/&/g' >> $(BUILD_DIR)/depend.inc; \
+	cat tempfile | sed -e 's/^+.*//g' -e 's/[^\.]*\.rel/$(BUILD_DIR)\/&/g' > $(BUILD_DIR)/depend.inc; \
 	rm -f tempfile
 
 -include $(BUILD_DIR)/depend.inc
 
-$(BUILD_DIR)/%.rel : %.c
+$(BUILD_DIR)/%.rel : $(SRC_DIR)/%.c
 	export PATH=$(BIN_PATH):$$PATH; \
 	$(CXX) -c $(CFLAGS) $(INCLUDES) -o $@ $<
 
-$(BUILD_DIR)/%.rel : %.asm
+$(BUILD_DIR)/%.rel : $(SRC_DIR)/%.asm
 	export PATH=$(BIN_PATH):$$PATH; \
 	cp $< $(BUILD_DIR)/; \
 	cd $(BUILD_DIR); \
@@ -76,7 +77,7 @@ $(BUILD_DIR)/%.rel : %.asm
 
 $(PACKAGE) : $(patsubst %,$(BUILD_DIR)/%,$(PACKAGE))
 
-$(BUILD_DIR)/$(PACKAGE) : $(patsubst %,$(BUILD_DIR)/%,$(OBJS))
+$(BUILD_DIR)/$(PACKAGE) : $(OBJS)
 	export PATH=$(BIN_PATH):$$PATH; \
 	$(CXX) $(LFLAGS) $(INCLUDES) -o $@ $(LIBS) $^; \
 	if [ -f $(basename $@) ]; then mv $(basename $@) $(basename $@).omf; fi
