@@ -46,3 +46,5 @@ Connect a _GPIB-USBCDC_ board and a PC via [USB debug adapter (UDA)](http://www.
 
 # Additional information
 * The project owner's website is [Fenrir's BLog](http://fenrir.naruoka.org/).
+
+[![Build Status](https://travis-ci.org/fenrir-naru/gpib-usbcdc.svg?branch=master)](https://travis-ci.org/fenrir-naru/gpib-usbcdc)
