@@ -33,7 +33,9 @@ It is [Prologix GPIB-USB adapter](http://prologix.biz/gpib-usb-controller.html) 
 | R5 | 1K | 1005 | 1 |
 
 # Firmware
-To build the firmware, install [sdcc](http://sdcc.sourceforge.net/) (testing with [ver 3.3.0 #8604](http://sourceforge.net/projects/sdcc/files/sdcc/3.3.0/)), and just "make" at "firmware1" directory of the downloaded [code](https://github.com/fenrir-naru/gpib-usbcdc/tree/master/firmware). The generated firmware name is  `gpib-usbcdc.hex`. The firmware code is published under [New BSD License](http://opensource.org/licenses/BSD-3-Clause). The binary is [here](https://drive.google.com/folderview?id=0ByrAl6X3Khv2fldnTDZFdXhWMlM3MktQcy12ME1nUXdxY1lTTUIxMEpHUFNaTlJKZGRJczA&usp=sharing)
+To build the firmware, install [sdcc](http://sdcc.sourceforge.net/) (testing with [ver 3.3.0 #8604](http://sourceforge.net/projects/sdcc/files/sdcc/3.3.0/)), and just "make" at "firmware1" directory of the downloaded [code](https://github.com/fenrir-naru/gpib-usbcdc/tree/master/firmware). The generated firmware name is  `gpib-usbcdc.hex`. The firmware code is published under [New BSD License](http://opensource.org/licenses/BSD-3-Clause). The binary is [here](https://github.com/fenrir-naru/gpib-usbcdc/releases)
+
+[![Build Status](https://travis-ci.org/fenrir-naru/gpib-usbcdc.svg?branch=master)](https://travis-ci.org/fenrir-naru/gpib-usbcdc)
 
 ## How to write firmware to hardware
 Connect a _GPIB-USBCDC_ board and a PC via [USB debug adapter (UDA)](http://www.silabs.com/products/mcu/pages/usbdebug.aspx) or compatible one. The minimum required programming connections are summarized in the following table. Then, use [Flash Programming Utilities](http://www.silabs.com/products/mcu/Pages/8-bit-microcontroller-software.aspx#flash). Note: the board may not be recognized by a PC when an UDA is connected via USB hubs. UDA is recommended to connect a PC directly.
@@ -46,5 +48,3 @@ Connect a _GPIB-USBCDC_ board and a PC via [USB debug adapter (UDA)](http://www.
 
 # Additional information
 * The project owner's website is [Fenrir's BLog](http://fenrir.naruoka.org/).
-
-[![Build Status](https://travis-ci.org/fenrir-naru/gpib-usbcdc.svg?branch=master)](https://travis-ci.org/fenrir-naru/gpib-usbcdc)
