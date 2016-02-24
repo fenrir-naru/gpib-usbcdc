@@ -94,21 +94,13 @@ static cdc_line_coding_t __xdata uart_line_coding = {
   8       // data bits: 5,6,7,8,16
 };
 
-static void set_line_coding(cdc_line_coding_t *setting){
-
-  // Copy setting
-  memcpy(&uart_line_coding, setting, sizeof(cdc_line_coding_t));
-
-  // Apply setting to UART
-
-  // Flush COM buffers
-}
-
-static __xdata cdc_line_coding_t lc_buffer;
+static __xdata u8 ep0_data_buf[8];
 
 // called at the end of data stage
-static void cdc_set_line_coding_complete(){
-  set_line_coding(&lc_buffer);
+static void set_line_coding_complete(){
+  if(memcmp(&uart_line_coding, ep0_data_buf, sizeof(cdc_line_coding_t)) != 0){
+    memcpy(&uart_line_coding, ep0_data_buf, sizeof(cdc_line_coding_t));
+  }
 }
 
 // Line status output
@@ -205,8 +197,6 @@ static const __code unsigned char ftdi_rom[] = {
   */
 };  // 128 (+ 128) bytes TODO: where is PnP flag?
 
-static __xdata ftdi_ep0_buf[2];
-
 // HEADER0 -- Modem Status
 #define HEADER0_SIGN  0x01      // 0.B0..B3 Reserved
 #define HEADER0_CTS   (1 << 4)  // 0.B4 Clear to Send (CTS)
@@ -237,9 +227,9 @@ static void cdc_Send_Encapsulated_Command(){
       && (ep0_setup.wLength.i <= sizeof(cdc_line_coding_t))){
     
     ep0_reserve_data(
-        (u8 *)lc_buffer,
-        ep0_setup.wLength.i,
-        cdc_set_line_coding_complete
+        ep0_data_buf,
+        min(sizeof(ep0_data_buf), ep0_setup.wLength.i),
+        NULL
       );
     usb_ep0_status = EP_RX;
     ep0_request_completed = TRUE;
@@ -255,7 +245,7 @@ static void cdc_Get_Encapsulated_Command(){
   if((ep0_setup.bmRequestType == IN_CL_INTERFACE)
     && (ep0_setup.wValue.i == 0)){
              
-    ep0_register_data((u8 *)lc_buffer, 0); // Send ZLP
+    ep0_register_data(ep0_data_buf, 0); // Send ZLP
     usb_ep0_status = EP_TX;
     ep0_request_completed = TRUE;
   }
@@ -280,9 +270,9 @@ static void cdc_Set_Line_Coding(){
     && (ep0_setup.wLength.i == sizeof(cdc_line_coding_t))){
     
     ep0_reserve_data(
-        (u8 *)lc_buffer,
+        ep0_data_buf,
         sizeof(cdc_line_coding_t),
-        cdc_set_line_coding_complete
+        set_line_coding_complete
       );
     usb_ep0_status = EP_RX;
     ep0_request_completed = TRUE;
@@ -476,9 +466,9 @@ void usb_CDC_req(){
       break;
     case GET_MODEM_STATUS:
       if(ep0_setup.wLength.c[LSB] <= 2){
-        ftdi_ep0_buf[0] = 0x70;
-        ftdi_ep0_buf[1] = 0x00;
-        ep0_register_data((u8 *)ftdi_ep0_buf,
+        ep0_data_buf[0] = 0x70;
+        ep0_data_buf[1] = 0x00;
+        ep0_register_data(ep0_data_buf,
             ep0_setup.wLength.c[LSB]);
         usb_ep0_status = EP_TX;
         ep0_request_completed = TRUE;
@@ -496,7 +486,7 @@ void usb_CDC_req(){
       ep0_request_completed = TRUE;
       break;
     case WRITE_EEPROM:
-      //TODO: ep0_reserve_data((u8 *)lc_buffer, ep0_setup.wLength.c[LSB], set_line_coding);
+      //TODO: ep0_reserve_data(ep0_data_buf, ep0_setup.wLength.c[LSB], NULL);
       usb_ep0_status = EP_RX;
       //ep0_request_completed = TRUE;
       break;
