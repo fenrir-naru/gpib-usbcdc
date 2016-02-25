@@ -46,14 +46,14 @@ static void prologue(){
   ea_orig = EA; // Preserve EA
   EA = 0; // Disable interrupts
 
-  FLSCL_orig = FLSCL;
+  FLSCL_orig = FLSCL & 0x90;
   if(SYSCLK > 25000000UL){ // check clock speed
-    FLSCL |= 0x10;
+    FLSCL = (FLSCL_orig | 0x10);
   }
 
   VDM0CN_orig = VDM0CN;
   if(!(VDM0CN & 0x80)){
-    VDM0CN |= 0x80; // Enable VDD monitor
+    VDM0CN = (VDM0CN_orig | 0x80); // Enable VDD monitor
     wait_us(100);
   }
   RSTSRC_orig = RSTSRC & 0xA6;
