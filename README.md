@@ -33,7 +33,7 @@ It is [Prologix GPIB-USB adapter](http://prologix.biz/gpib-usb-controller.html) 
 | R5 | 1K | 1005 | 1 |
 
 # Firmware
-To build the firmware, install [sdcc](http://sdcc.sourceforge.net/) (testing with [ver 3.3.0 #8604](http://sourceforge.net/projects/sdcc/files/sdcc/3.3.0/)), and just "make" at "firmware1" directory of the downloaded [code](https://github.com/fenrir-naru/gpib-usbcdc/tree/master/firmware). The generated firmware name is  `gpib-usbcdc.hex`. The firmware code is published under [New BSD License](http://opensource.org/licenses/BSD-3-Clause). The binary is [here](https://github.com/fenrir-naru/gpib-usbcdc/releases)
+The official binary is published in [github release](https://github.com/fenrir-naru/gpib-usbcdc/releases). To build the firmware by yourself, install [sdcc](http://sdcc.sourceforge.net/) (testing with [ver 3.3.0 #8604](http://sourceforge.net/projects/sdcc/files/sdcc/3.3.0/)), and just "make" at "firmware" directory of the downloaded [code](https://github.com/fenrir-naru/gpib-usbcdc/tree/master/firmware). The generated firmware name is  `gpib-usbcdc.hex`. The firmware code is published under [New BSD License](http://opensource.org/licenses/BSD-3-Clause). 
 
 [![Build Status](https://travis-ci.org/fenrir-naru/gpib-usbcdc.svg?branch=master)](https://travis-ci.org/fenrir-naru/gpib-usbcdc)
 
