@@ -81,5 +81,5 @@ for dev in ${DISABLE_DEVICES}; do
 done
 
 ./configure ${CONFIGURE_OPT} \
-&& make \
+&& make -j \
 && make install
