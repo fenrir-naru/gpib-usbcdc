@@ -3,6 +3,11 @@ set -ev
 : ${SDCC:=3.3.0}
 : ${SDCC_DIR:=/usr/local}
 
+if [[ $(sdcc --version) =~ "${SDCC}" ]]; then
+  echo "Found sdcc-${SDCC}, build skipped."
+  exit 0
+fi
+
 if [ ! -d sdcc-${SDCC} ]; then
   if [ ! -f sdcc-src-${SDCC}.tar.bz2 ]; then
     wget "http://downloads.sourceforge.net/project/sdcc/sdcc/${SDCC}/sdcc-src-${SDCC}.tar.bz2" -O sdcc-src-${SDCC}.tar.bz2

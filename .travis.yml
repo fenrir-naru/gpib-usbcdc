@@ -8,14 +8,22 @@ addons:
       #- sdcc
     
 env:
-  - SDCC=3.3.0 SDCC_DIR=/tmp/sdcc330
+  global:
+    - SDCC=3.3.0
+    - SDCC_DIR=/tmp/sdcc-$SDCC
+
+cache:
+  directories:
+    - $SDCC_DIR
+
+before_install:
+  - export PATH=$PATH:$SDCC_DIR/bin
+  - chmod +x ./scripts/build-sdcc.sh
 
 install:
-  - chmod +x ./scripts/build-sdcc.sh
   - ./scripts/build-sdcc.sh
 
 before_script:
-  - export PATH=$PATH:$SDCC_DIR/bin
   - sdcc --version
 
 script:
