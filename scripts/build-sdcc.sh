@@ -78,8 +78,10 @@ esac
 DISABLE_DEVICES="z80 z180 r2k r3ka gbz80 ds390 ds400 pic14 pic16 hc08 s08"
 CONFIGURE_OPT="--prefix=${SDCC_DIR} --disable-ucsim --disable-sdcdb --disable-non-free" 
 case "${SDCC}" in
-3.[45].*)
+3.[45678].*)
 DISABLE_DEVICES+=" tlcs90 stm8 stm8";;
+3.[9].*)
+DISABLE_DEVICES+=" tlcs90 stm8 stm8 ez80_z80 pdk13 pdk14 pdk15";;
 esac
 for dev in ${DISABLE_DEVICES}; do
   CONFIGURE_OPT+=" --disable-${dev}-port";
