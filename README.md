@@ -8,6 +8,9 @@ It is [Prologix GPIB-USB adapter](http://prologix.biz/gpib-usb-controller.html) 
   1. Connect _GPIB-USBCDC_ to the PC. _GPIB-USBCDC_ is recognized as serial port, which will be installed with [CDC inf file](https://raw.githubusercontent.com/fenrir-naru/gpib-usbcdc/master/firmware/inf/gpib-usbcdc_C8051F38x.inf).
   1. Other usage is almost same as [Prologix GPIB-USB adapter](http://prologix.biz/gpib-usb-controller.html). Please see that product manual.
   
+# Manual
+[Nice user manual](https://github.com/fenrir-naru/gpib-usbcdc/blob/master/docs/manual_by_Alessandro.pdf) written by Alessandro Soraruf is available, Thanks!
+  
 # Board
 [EagleCAD](http://www.cadsoftusa.com/) files are available (ver.1 [schematics](https://github.com/fenrir-naru/gpib-usbcdc/blob/master/board/gpib-usbcdc.sch) and [layout](https://github.com/fenrir-naru/gpib-usbcdc/blob/master/board/gpib-usbcdc.brd). Its components are listed in [BOM](https://github.com/fenrir-naru/gpib-usbcdc#bom-bill-of-material). The board design is published under [Creative Commons Attribution-ShareAlike 4.0 International](http://creativecommons.org/licenses/by-sa/4.0/).
 
