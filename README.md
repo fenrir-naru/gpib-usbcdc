@@ -10,6 +10,7 @@ It is [Prologix GPIB-USB adapter](http://prologix.biz/gpib-usb-controller.html) 
   
 # Manual
 [Nice user manual](https://github.com/fenrir-naru/gpib-usbcdc/blob/master/docs/manual_by_Alessandro.pdf) written by Alessandro Soraruf is available, Thanks!
+In addition, please set up your device with its address except for zero, in case of bus confliction reported by [biergaizi](https://github.com/fenrir-naru/gpib-usbcdc/issues/5).
   
 # Board
 [EagleCAD](http://www.cadsoftusa.com/) files are available (ver.1 [schematics](https://github.com/fenrir-naru/gpib-usbcdc/blob/master/board/gpib-usbcdc.sch) and [layout](https://github.com/fenrir-naru/gpib-usbcdc/blob/master/board/gpib-usbcdc.brd). Its components are listed in [BOM](https://github.com/fenrir-naru/gpib-usbcdc#bom-bill-of-material). The board design is published under [Creative Commons Attribution-ShareAlike 4.0 International](http://creativecommons.org/licenses/by-sa/4.0/).
